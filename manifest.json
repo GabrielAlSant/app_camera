@@ -1,12 +1,12 @@
 {
     "name":"App camera",
-    "short_name": "Myca ",
+    "short_name": "Mycam",
     "icons": [{
-          "src":"images/list256.png",
+          "src":"images/camera.png",
           "sizes":"256x256",
           "type": "image/png"
     },
-{ "src":"images/list512.png",
+{ "src":"images/camera512.png",
     "sizes":"512x512",
     "type": "image/png"}
 ],
