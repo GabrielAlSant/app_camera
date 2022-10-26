@@ -5,38 +5,30 @@ window.onload = () => {
     }
 };
 
-function createCloseButton(li) {
-    let span = document.createElement("SPAN");
-    let txt = document.createTextNode("🗑️");
-  
-    span.appendChild(txt);
-    li.appendChild(span);
-    span.className = "lixeira";
+var constraints = {video :{ facingMode:"user"}, audio:false}
 
+const cameraView = document.querySelector("#camera--view")
+cameraOutput = document.querySelector("#camera--output")
+cameraSensor = document.querySelector("#camera--sensor")
+cameraTrigger = document.querySelector("#camera--trigger")
 
-    span.onclick = () => span.parentElement.style.display = "none"
-  }
-  
-  document.querySelectorAll('li').forEach(createCloseButton);
+function cameraStart(){
+    navigator.mediaDevices
+     .getUserMedia(constraints)
+     .then(function(stream){
+        track = stream.getTracks()[0]
+        cameraView.srcObject = stream
+     })
+     .catch(function(error){
+        console.error("Oops. something is broken.", error)
+     })
+}
 
-  
-  document.querySelector('ul').addEventListener('click', (e) => {
-    if (e.target.tagName === 'LI')
-      e.target.classList.toggle('checked');
-  });
-
-  function add() {
-    let li = document.createElement('LI');
-    let tarefa = document.form_main.task.value;
-    let addtarefa = document.createTextNode(tarefa);
-  
-    li.appendChild(addtarefa);
-    document.querySelector('ul').appendChild(li);
-    document.form_main.task.value = "";
-
-    li.className = "lista";
-  
-    createCloseButton(li);
-  }
-
-  
+cameraTrigger.onclick = function(){
+    cameraSensor.width = cameraView.videoWidth;
+    cameraSensor.height = cameraView.videoHeight;
+    cameraSensor.getContext("2d").drawImage(cameraView, 0,0)
+    cameraOutput.src = cameraSensor.toDataURL("image/webp")
+    cameraOutput.classList.add("taken")
+};
+window.addEventListener("load", cameraStart,false)
